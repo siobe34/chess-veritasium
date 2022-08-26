@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowPointer, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -12,18 +12,28 @@ import Rook from './ChessPieces/Rook';
 import Pawn from './ChessPieces/Pawn';
 
 type ComponentProps = {
-    color: 'white' | 'black';
+    color: 'w' | 'b';
+    pieceColor: 'w' | 'b';
+    setPieceColor: React.Dispatch<React.SetStateAction<'w' | 'b'>>;
 };
 
-function BoardEditor({ color }: ComponentProps) {
+function BoardEditor({ color, pieceColor, setPieceColor }: ComponentProps) {
+    let longColor;
+    if (color === 'b') {
+        longColor = 'black';
+    } else {
+        longColor = 'white';
+    };
+
     const { piece, setPiece } = useContext(PieceContext);
     if (!setPiece) return null;
 
     const selectPiece = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        setPieceColor(() => color);
+        
         const selectedPiece: any = e.currentTarget.getAttribute('data-piece');
         setPiece((prevState) => {
-            console.log(color);
-            if (prevState === selectedPiece) return null;
+            if (prevState === selectedPiece && pieceColor === color) return null;
             return selectedPiece;
         });
     };
@@ -31,7 +41,7 @@ function BoardEditor({ color }: ComponentProps) {
     return (
         <div className='flex bg-gray-500' style={{height: '70px', width: '560px'}}>
             <div
-                className={`${color === 'white' ? 'text-white' : null} flex items-center justify-center ${piece === 'select-tool' ? 'bg-blue-500' : null}`}
+                className={`${color === 'w' ? 'text-white' : null} flex items-center justify-center ${piece === 'select-tool' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='select-tool'
@@ -39,55 +49,55 @@ function BoardEditor({ color }: ComponentProps) {
                 <FontAwesomeIcon icon={faArrowPointer} fontSize='45px'/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'King' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'King' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='King'
             >
-                <King color={ color }/>
+                <King color={ longColor }/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'Queen' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'Queen' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='Queen'
             >
-                <Queen color={ color }/>
+                <Queen color={ longColor }/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'Bishop' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'Bishop' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='Bishop'
             >
-                <Bishop color={ color }/>
+                <Bishop color={ longColor }/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'Knight' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'Knight' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='Knight'
             >
-                <Knight color={ color }/>
+                <Knight color={ longColor }/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'Rook' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'Rook' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='Rook'
             >
-                <Rook color={ color }/>
+                <Rook color={ longColor }/>
             </div>
             <div
-                className={`flex items-center justify-center ${piece === 'Pawn' ? 'bg-blue-500' : null}`}
+                className={`flex items-center justify-center ${piece === 'Pawn' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='Pawn'
             >
-                <Pawn color={ color }/>
+                <Pawn color={ longColor }/>
             </div>
             <div
-                className={`${color === 'white' ? 'text-white' : null} flex items-center justify-center ${piece === 'delete-tool' ? 'bg-blue-500' : null}`}
+                className={`${color === 'w' ? 'text-white' : null} flex items-center justify-center ${piece === 'delete-tool' && pieceColor === color ? 'bg-blue-500' : null}`}
                 style={{height: '70px', width:'70px'}}
                 onClick={selectPiece}
                 data-piece='delete-tool'

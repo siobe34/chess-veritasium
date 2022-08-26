@@ -1,32 +1,35 @@
 import { useState, useEffect } from 'react';
 
 type timerProps = {
-    time: number
+    time: number;
+    clearBoard: any;
 };
 
-function Timer ({time}: timerProps) {
-    const currentTime: number = Date.now();
-    
-    const [countdown, setCountdown] = useState<number>(currentTime - Date.now());
-    
-    const targetTime: number = countdown + time;
+function Timer ({time, clearBoard}: timerProps) {
+    const [seconds, setSeconds] = useState<number>(time);
 
-    // useEffect(() => {
-    //     console.log('running')
-    //     const interval = setInterval(() => {
-    //         setCountdown(currentTime - Date.now());
-    //     }, 1000);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (seconds === 0) {
+                clearInterval(interval);
+                return;
+            };
 
-    //     return () => clearInterval(interval);
-    // }, [currentTime]);
+            if (seconds === 1) {
+                clearBoard();
+            };
+
+            setSeconds((prevState) => prevState - 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [seconds]);
+
 
     return (
         <>
-        <span className='text-6xl'>
-            { time }
-        </span>
-        <span>
-            { countdown }
+        <span className='text-6xl font-bold text-red-700 underline'>
+            { seconds }
         </span>
         </>
     );
