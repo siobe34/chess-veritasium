@@ -7,10 +7,11 @@ import { Chessboard } from 'react-chessboard';
 
 import MainContent from '../components/MainContent';
 import BoardEditor from '../components/BoardEditor';
+import Notifications, { NotificationItem, NotificationProps } from '../components/Notification';
 import Timer from '../components/Timer';
 import PieceContext, { PieceContextType } from '../components/PieceContext';
 
-function Landing() {
+function Practice() {
     const fens: string[] = [
         '8/5k2/3p4/1p1Pp2p/pP2Pp1P/P4P1K/8/8 b - - 99 50',
         'r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24',
@@ -49,8 +50,8 @@ function Landing() {
         '8/3pk3/R7/1R2Pp1p/2PPnKr1/8/8/8 w - - 4 43',
         '6k1/3bqr1p/2rpp1pR/p7/Pp1QP3/1B3P2/1PP3P1/2KR4 w - - 6 22'
     ];
-    const fen: string = fens[0];
 
+    const [fen, setFen] = useState<string>(fens[0]);
     const [orientation, setOrientation] = useState<'w' | 'b'>('w');
     const [notation, setNotation] = useState<boolean>(true);
     const [draggablePieces, setDraggablePieces] = useState<boolean>(false);
@@ -58,7 +59,12 @@ function Landing() {
     const [piece, setPiece] = useState<PieceContextType['piece']>(null);
     const [pieceColor, setPieceColor] = useState<'w' | 'b'>('w');
     const [timerPeriod, setTimerPeriod] = useState<number>(5);
-    const [checkAnswer, setCheckAnswer] = useState<boolean>(false);
+    const defaultNotfication: {message: string|null, type: NotificationProps['notificationType'], timeout: number} = {
+        message: null,
+        type: 'info',
+        timeout: 0
+    }
+    const [notification, setNotification] = useState(defaultNotfication);
 
     const flipBoard = () => {
         setOrientation((prevState) => prevState === 'w' ? 'b' : 'w');
@@ -130,28 +136,52 @@ function Landing() {
         const answer = fen.split(' ')[0];
         const solution = game.fen().split(' ')[0];
         if (solution === answer) {
-            setCheckAnswer(true);
+            setNotification(() => ({
+                message: 'Nice, you got it right!',
+                type: 'success',
+                timeout: 2500
+            }));
+            
+            const randomNumber: number = Math.floor(Math.random() * (fens.length + 1));
+            const newFen: string = fens[randomNumber];
+            
             setTimeout(() => {
-                const randomNumber: number = Math.floor(Math.random() * (fens.length + 1));
-                setGame(() => new Chess(fens[randomNumber]));
+                setGame(() => new Chess(newFen));
+                setFen(() => newFen);    
+            }, 1500);
 
-                setCheckAnswer(false);
-            }, 1000);
+            setTimeout(() => {
+                setNotification(() => defaultNotfication);
+            }, 2500);
+
             return;
         };
-
-        setCheckAnswer(false);
+        
+        setNotification(() => ({
+            message: 'Not quite right, try again!!',
+            type: 'error',
+            timeout: 3000
+        }));
+        setTimeout(() => {
+            setNotification(() => defaultNotfication);
+        }, 3000);
     };
 
 
     return (
         <PieceContext.Provider value = {{piece: piece, setPiece: setPiece}}>
             <MainContent>
-                <h1 className='font-bold text-3xl mt-6'>Landing Page</h1>
-                <div className='flex'>
+                {notification.message && (
+                    <Notifications>
+                        <NotificationItem notificationType={notification.type} timeout={notification.timeout}>
+                            {notification.message}
+                        </NotificationItem>
+                    </Notifications>
+                )}
+                <div className='flex items-center justify-center h-full gap-4'>
                     <div className='flex flex-col gap-4 self-center px-4'>
                         <button
-                            className={`bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded ${checkAnswer === true ? 'bg-green-500 hover:text-green-700 border-green-500' : null}`}
+                            className={`bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded ${notification.type === 'success' ? 'bg-green-500 hover:text-green-700 border-green-500' : null}`}
                             onClick={() => checkFen()}
                         >
                             <div className='flex items-center justify-between'>
@@ -255,4 +285,4 @@ function Landing() {
     );
 }
 
-export default Landing;
+export default Practice;

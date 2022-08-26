@@ -30,12 +30,12 @@ function Navbar() {
                     >
                         Practice
                     </Link>
-                    <a href='#responsive-header' className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4'>
+                    <Link
+                        className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4'
+                        to='/about'
+                    >
                         About
-                    </a>
-                    <a href='#responsive-header' className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white'>
-                        Get in Touch
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className='block lg:active'>

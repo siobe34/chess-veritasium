@@ -28,7 +28,7 @@ function Timer ({time, clearBoard}: timerProps) {
 
     return (
         <>
-        <span className='text-6xl font-bold text-red-700 underline'>
+        <span className='text-6xl font-bold text-red-700'>
             { seconds }
         </span>
         </>

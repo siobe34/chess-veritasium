@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -32,7 +31,7 @@ function Landing() {
             </div>
             <button className='flex bg-blue-500 text-white rounded hover:bg-blue-700 p-4 mt-4'>
                 <Link to={'/practice'}>
-                    Begin to Master Chess!
+                    Try to Master Chess!
                     <FontAwesomeIcon icon={faArrowRight} className='ml-2' />
                 </Link>
             </button>
