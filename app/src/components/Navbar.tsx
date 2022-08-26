@@ -1,21 +1,10 @@
-// import styled from 'styled-components';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faBars } from '@fortawesome/free-solid-svg-icons';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChessQueen } from '@fortawesome/free-solid-svg-icons';
-
-// import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
-// import NavLink from './NavLink';
-// import Button from './Button';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChessQueen } from '@fortawesome/free-solid-svg-icons';
+// import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-// type ComponentProps = {
-//     className?: string;
-// };
-
-// function UnstyledNavbar({ className }: ComponentProps) {
 function Navbar() {
     const [mobileMenu, setMobileMenu] = useState<boolean>(false);
     const handleMenuToggle = () => {
@@ -28,14 +17,19 @@ function Navbar() {
         <>
         <nav className='flex items-center content-center justify-between flex-wrap bg-blue-500'>
             <div className='flex items-center flex-shrink-0 text-white ml-6 mr-12'>
-                <FontAwesomeIcon className='mr-2' icon={faChessQueen} />
-                <span className='font-semibold text-xl tracking-tight'>10K-Chess</span>
+                <Link to='/'>
+                    <FontAwesomeIcon className='mr-2' icon={faChessQueen} />
+                    <span className='font-semibold text-xl tracking-tight'>10K-Chess</span>
+                </Link>
             </div>
             <div className='w-full block flex-grow lg:flex lg:items-center lg:w-auto'>
                 <div className='text-sm lg:flex-grow'>
-                    <a href='#responsive-header' className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4'>
+                    <Link
+                        className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4'
+                        to='/practice'
+                    >
                         Practice
-                    </a>
+                    </Link>
                     <a href='#responsive-header' className='block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4'>
                         About
                     </a>
