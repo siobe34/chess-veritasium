@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationCrosshairs, faClock, faArrowsRotate, faEraser, faRotateLeft, faChessBoard, faCheck} from '@fortawesome/free-solid-svg-icons';
+import { faLocationCrosshairs, faArrowsRotate, faEraser, faChessBoard, faCheck, faEyeLowVision} from '@fortawesome/free-solid-svg-icons';
 import { Chess, Square, Piece, PieceType } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 
@@ -10,6 +10,7 @@ import BoardEditor from '../components/BoardEditor';
 import Notifications, { NotificationItem, NotificationProps } from '../components/Notification';
 import Timer from '../components/Timer';
 import PieceContext, { PieceContextType } from '../components/PieceContext';
+import CountdownContext, { CountdownType } from '../components/CountdownContext';
 
 function Practice() {
     const fens: string[] = [
@@ -58,12 +59,12 @@ function Practice() {
     const [game, setGame] = useState(new Chess(fen));
     const [piece, setPiece] = useState<PieceContextType['piece']>(null);
     const [pieceColor, setPieceColor] = useState<'w' | 'b'>('w');
-    const [timerPeriod, setTimerPeriod] = useState<number>(5);
+    const [countdown, setCountdown] = useState<CountdownType['countdown']>(5);
     const defaultNotfication: {message: string|null, type: NotificationProps['notificationType'], timeout: number} = {
         message: null,
         type: 'info',
         timeout: 0
-    }
+    };
     const [notification, setNotification] = useState(defaultNotfication);
 
     const flipBoard = () => {
@@ -74,13 +75,13 @@ function Practice() {
         setNotation((prevState) => !prevState);
     };
     
-    const setCountdown = () => {
+    const changeCountdown = () => {
         const inp: HTMLInputElement | null = document.querySelector('#countdown');
         if (inp) {
-            setTimerPeriod(() => Number(inp.value));
+            setCountdown(() => Number(inp.value));
             return;
         };
-        setTimerPeriod(() => 5);
+        setCountdown(() => 5);
     };
     
     const startingPosition = () => {
@@ -93,6 +94,7 @@ function Practice() {
     
     const restorePosition = () => {
         setGame(() => new Chess(fen));
+        changeCountdown();
     };
     
     const placePiece = (piece: Piece, square: Square) => {
@@ -147,7 +149,8 @@ function Practice() {
             
             setTimeout(() => {
                 setGame(() => new Chess(newFen));
-                setFen(() => newFen);    
+                setFen(() => newFen);
+                changeCountdown();
             }, 1500);
 
             setTimeout(() => {
@@ -167,121 +170,116 @@ function Practice() {
         }, 3000);
     };
 
+    useEffect(() => {
+        if (countdown === 0) {
+            clearBoard();
+        };
+    }, [countdown]);
 
     return (
-        <PieceContext.Provider value = {{piece: piece, setPiece: setPiece}}>
-            <MainContent>
-                {notification.message && (
-                    <Notifications>
-                        <NotificationItem notificationType={notification.type} timeout={notification.timeout}>
-                            {notification.message}
-                        </NotificationItem>
-                    </Notifications>
-                )}
-                <div className='flex items-center justify-center h-full gap-4'>
-                    <div className='flex flex-col gap-4 self-center px-4'>
-                        <button
-                            className={`bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded ${notification.type === 'success' ? 'bg-green-500 hover:text-green-700 border-green-500' : null}`}
-                            onClick={() => checkFen()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faCheck} />
-                                Check Answer
+        <CountdownContext.Provider value = {{countdown: countdown, setCountdown:setCountdown}}>
+            <PieceContext.Provider value = {{piece: piece, setPiece: setPiece}}>
+                <MainContent>
+                    {notification.message && (
+                        <Notifications>
+                            <NotificationItem notificationType={notification.type} timeout={notification.timeout}>
+                                {notification.message}
+                            </NotificationItem>
+                        </Notifications>
+                    )}
+                    <div className='flex items-center justify-center h-full gap-4'>
+                        <div className='flex flex-col gap-4 self-center px-4'>
+                            <button
+                                className={`bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded ${notification.type === 'success' ? 'bg-green-500 hover:text-green-700 border-green-500' : null}`}
+                                onClick={() => checkFen()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faCheck} />
+                                    Check Answer
+                                </div>
+                            </button>
+                            <button
+                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+                                onClick={() => flipBoard()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faArrowsRotate} />
+                                    Flip Board
+                                </div>
+                            </button>
+                            <button
+                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+                                onClick={() => toggleNotation()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faLocationCrosshairs} />
+                                    Toggle Notation
+                                </div>
+                            </button>
+                            <button
+                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+                                onClick={() => clearBoard()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faEraser} />
+                                    Clear Board
+                                </div>
+                            </button>
+                            <button
+                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+                                onClick={() => startingPosition()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faChessBoard} />
+                                    Starting Position
+                                </div>
+                            </button>
+                            <button
+                                className='bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded'
+                                onClick={() => restorePosition()}
+                            >
+                                <div className='flex items-center justify-between'>
+                                    <FontAwesomeIcon className='pr-2' icon={faEyeLowVision} />
+                                    Peek Again
+                                </div>
+                            </button>
+                            <div className='flex flex-col items-center justify-between'>
+                                <label className='text-xs font-semibold' htmlFor='countdown'>Change Countdown Timer</label>
+                                <input
+                                    id='countdown'
+                                    name='countdown'
+                                    className='bg-transparent outline-none border border-blue-500 hover:border-blue-300 rounded text-blue-700 text-center'
+                                    type='number'
+                                    defaultValue={countdown ? countdown : ''}
+                                />
                             </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => flipBoard()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faArrowsRotate} />
-                                Flip Board
-                            </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => toggleNotation()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faLocationCrosshairs} />
-                                Toggle Notation
-                            </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => clearBoard()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faEraser} />
-                                Clear Board
-                            </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => restorePosition()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faRotateLeft} />
-                                Restore Position
-                            </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => startingPosition()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faChessBoard} />
-                                Starting Position
-                            </div>
-                        </button>
-                        <button
-                            className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                            onClick={() => setCountdown()}
-                        >
-                            <div className='flex items-center justify-between'>
-                                <FontAwesomeIcon className='pr-2' icon={faClock} />
-                                Set Timer
-                            </div>
-                        </button>
-                        <div className='flex flex-col items-center justify-between'>
-                            <label className='text-xs font-semibold' htmlFor='countdown'>Current Countdown Timer</label>
-                            <input
-                                id='countdown'
-                                name='countdown'
-                                className='bg-transparent outline-none border border-blue-500 hover:border-blue-300 rounded text-blue-700 text-center'
-                                type='number'
-                                defaultValue={timerPeriod}
+                        </div>
+                        <div className='flex flex-col gap-6'>
+                            <BoardEditor
+                                color={orientation === 'w' ? 'b' : 'w'}
+                                pieceColor={pieceColor}
+                                setPieceColor={setPieceColor}
+                            />
+                            <Chessboard
+                                position={game.fen()}
+                                arePiecesDraggable={draggablePieces}
+                                showBoardNotation={notation}
+                                boardOrientation={orientation === 'w' ? 'white' : 'black'}
+                                onSquareClick={(square: Square) => handlePieceSelection(square)}
+                            />
+                            <BoardEditor
+                                color={orientation === 'w' ? 'w' : 'b'}
+                                pieceColor={pieceColor}
+                                setPieceColor={setPieceColor}
                             />
                         </div>
+                        <div className='flex items-center justify-center px-4' style={{width: '50px'}}>
+                            <Timer />
+                        </div>
                     </div>
-                    <div className='flex flex-col gap-6'>
-                        <BoardEditor
-                            color={orientation === 'w' ? 'b' : 'w'}
-                            pieceColor={pieceColor}
-                            setPieceColor={setPieceColor}
-                        />
-                        <Chessboard
-                            position={game.fen()}
-                            arePiecesDraggable={draggablePieces}
-                            showBoardNotation={notation}
-                            boardOrientation={orientation === 'w' ? 'white' : 'black'}
-                            onSquareClick={(square: Square) => handlePieceSelection(square)}
-                        />
-                        <BoardEditor
-                            color={orientation === 'w' ? 'w' : 'b'}
-                            pieceColor={pieceColor}
-                            setPieceColor={setPieceColor}
-                        />
-                    </div>
-                    <div className='flex items-center justify-center px-4' style={{width: '50px'}}>
-                        <Timer
-                            time={timerPeriod}
-                            clearBoard={clearBoard}
-                        />
-                    </div>
-                </div>
-            </MainContent>
-        </PieceContext.Provider>
+                </MainContent>
+            </PieceContext.Provider>
+        </CountdownContext.Provider>
     );
 }
 

@@ -1,35 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 
-type timerProps = {
-    time: number;
-    clearBoard: any;
-};
+import CountdownContext from './CountdownContext';
 
-function Timer ({time, clearBoard}: timerProps) {
-    const [seconds, setSeconds] = useState<number>(time);
+function Timer () {
+    const { countdown, setCountdown } = useContext(CountdownContext);
+    if (!setCountdown) return null;
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (seconds === 0) {
+            if (countdown === 0) {
                 clearInterval(interval);
                 return;
             };
-
-            if (seconds === 1) {
-                clearBoard();
-            };
-
-            setSeconds((prevState) => prevState - 1);
+            
+            setCountdown((prevState) => {
+                if (prevState === null) return 5;
+                if (prevState < 0) return 5;
+                return prevState - 1;
+            });
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [seconds]);
+    }, [countdown]);
 
 
     return (
         <>
         <span className='text-6xl font-bold text-red-700'>
-            { seconds }
+            { countdown }
         </span>
         </>
     );
