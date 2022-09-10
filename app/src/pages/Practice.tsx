@@ -6,6 +6,7 @@ import { Chess, Square, Piece, PieceType } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 
 import MainContent from '../components/MainContent';
+import Button from '../components/Button';
 import BoardEditor from '../components/BoardEditor';
 import Notifications, { NotificationItem, NotificationProps } from '../components/Notification';
 import Timer from '../components/Timer';
@@ -207,60 +208,47 @@ function Practice() {
                     )}
                     <div className='flex items-center justify-center h-full gap-4'>
                         <div className='flex flex-col gap-4 self-center px-4'>
-                            <button
-                                className={`bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded ${notification.type === 'success' ? 'bg-green-500 hover:text-green-700 border-green-500' : null}`}
+                            <Button
                                 onClick={() => checkFen()}
+                                buttonStyle={
+                                    notification.type === 'success' || notification.type === 'error' ? notification.type : 'primary'
+                                }
                             >
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faCheck} />
                                     Check Answer
                                 </div>
-                            </button>
-                            <button
-                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                                onClick={() => flipBoard()}
-                            >
+                            </Button>
+                            <Button onClick={() => flipBoard()}>
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faArrowsRotate} />
                                     Flip Board
                                 </div>
-                            </button>
-                            <button
-                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                                onClick={() => toggleNotation()}
-                            >
+                            </Button>
+                            <Button onClick={() => toggleNotation()}>
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faLocationCrosshairs} />
                                     Toggle Notation
                                 </div>
-                            </button>
-                            <button
-                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                                onClick={() => clearBoard()}
-                            >
+                            </Button>
+                            <Button onClick={() => clearBoard()}>
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faEraser} />
                                     Clear Board
                                 </div>
-                            </button>
-                            <button
-                                className='bg-transparent hover:bg-blue-500 text-blue-700 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-                                onClick={() => startingPosition()}
-                            >
+                            </Button>
+                            <Button onClick={() => startingPosition()}>
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faChessBoard} />
                                     Starting Position
                                 </div>
-                            </button>
-                            <button
-                                className='bg-blue-500 hover:bg-transparent text-white hover:text-blue-700 py-2 px-4 border border-blue-500 rounded'
-                                onClick={() => restorePosition()}
-                            >
+                            </Button>
+                            <Button onClick={() => restorePosition()} buttonStyle='primary'>
                                 <div className='flex items-center justify-between'>
                                     <FontAwesomeIcon className='pr-2' icon={faEyeLowVision} />
                                     Peek Again
                                 </div>
-                            </button>
+                            </Button>
                             <div className='flex flex-col items-center justify-between'>
                                 <label className='text-xs font-semibold' htmlFor='countdown'>Change Countdown Timer</label>
                                 <input
