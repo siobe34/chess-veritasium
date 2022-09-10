@@ -52,7 +52,9 @@ function Practice() {
         '6k1/3bqr1p/2rpp1pR/p7/Pp1QP3/1B3P2/1PP3P1/2KR4 w - - 6 22'
     ];
 
-    const [fen, setFen] = useState<string>(fens[0]);
+    // const [fen, setFen] = useState<string>(fens[1]);
+    // const [fen, setFen] = useState<string>('8/8/8/8/8/8/8/8 w - - 0 1');
+    const [fen, setFen] = useState<string>('');
     const [orientation, setOrientation] = useState<'w' | 'b'>('w');
     const [notation, setNotation] = useState<boolean>(true);
     const [draggablePieces, setDraggablePieces] = useState<boolean>(false);
@@ -146,10 +148,10 @@ function Practice() {
             
             const randomNumber: number = Math.floor(Math.random() * (fens.length + 1));
             const newFen: string = fens[randomNumber];
-            
             setTimeout(() => {
-                setGame(() => new Chess(newFen));
-                setFen(() => newFen);
+                getPGNs();
+                // setGame(() => new Chess(newFen));
+                // setFen(() => newFen);
                 changeCountdown();
             }, 1500);
 
@@ -176,6 +178,22 @@ function Practice() {
         };
     }, [countdown]);
 
+    async function getPGNs() {
+        
+        const response = await fetch('https://lichess.org/api/games/user/LefongHua?max=3&rated=true&pgnInJson=true');
+        const json = await response.text();
+        const responseList = json.split('\n');
+        const pgns: string[] = [];
+        responseList.forEach((line) => {
+            if (line[0] === '1') pgns.push(line);
+        });
+        console.log(pgns);
+        game.load_pgn(pgns[2]);
+        setGame(() => new Chess(game.fen()));
+    };
+    useEffect(() => {
+        getPGNs();
+    }, []);
     return (
         <CountdownContext.Provider value = {{countdown: countdown, setCountdown:setCountdown}}>
             <PieceContext.Provider value = {{piece: piece, setPiece: setPiece}}>
