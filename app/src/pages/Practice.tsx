@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationCrosshairs, faArrowsRotate, faEraser, faChessBoard, faCheck, faEyeLowVision} from '@fortawesome/free-solid-svg-icons';
+import { faLocationCrosshairs, faArrowsRotate, faEraser, faChessBoard, faCheck, faEyeLowVision, faLocationArrow} from '@fortawesome/free-solid-svg-icons';
 import { Chess, Square, Piece, PieceType } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 
 import MainContent from '../components/MainContent';
 import Button from '../components/Button';
+import ButtonIcon from '../components/ButtonIcon';
 import BoardEditor from '../components/BoardEditor';
 import Notifications, { NotificationItem, NotificationProps } from '../components/Notification';
 import Timer from '../components/Timer';
@@ -214,40 +215,22 @@ function Practice() {
                                     notification.type === 'success' || notification.type === 'error' ? notification.type : 'primary'
                                 }
                             >
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faCheck} />
-                                    Check Answer
-                                </div>
+                                <ButtonIcon icon={faCheck}>Check Answer</ButtonIcon>
                             </Button>
                             <Button onClick={() => flipBoard()}>
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faArrowsRotate} />
-                                    Flip Board
-                                </div>
+                                <ButtonIcon icon={faArrowsRotate}>Flip Board</ButtonIcon>
                             </Button>
                             <Button onClick={() => toggleNotation()}>
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faLocationCrosshairs} />
-                                    Toggle Notation
-                                </div>
+                                <ButtonIcon icon={faLocationCrosshairs}>Toggle Notation</ButtonIcon>
                             </Button>
                             <Button onClick={() => clearBoard()}>
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faEraser} />
-                                    Clear Board
-                                </div>
+                                <ButtonIcon icon={faEraser}>Clear Board</ButtonIcon>
                             </Button>
                             <Button onClick={() => startingPosition()}>
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faChessBoard} />
-                                    Starting Position
-                                </div>
+                                <ButtonIcon icon={faChessBoard}>Starting Position</ButtonIcon>
                             </Button>
                             <Button onClick={() => restorePosition()} buttonStyle='primary'>
-                                <div className='flex items-center justify-between'>
-                                    <FontAwesomeIcon className='pr-2' icon={faEyeLowVision} />
-                                    Peek Again
-                                </div>
+                                <ButtonIcon icon={faEyeLowVision}>Peek Again</ButtonIcon>
                             </Button>
                             <div className='flex flex-col items-center justify-between'>
                                 <label className='text-xs font-semibold' htmlFor='countdown'>Change Countdown Timer</label>
