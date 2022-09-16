@@ -18,14 +18,6 @@ yarn-error.log*
 
 #####
 
-#general
-lichess_db_puzzle.csv
-lichess_db_puzzle.csv.bz2
-
-#api
-/api/node_modules
-/api/package-lock.json
-
 #app
 /app/node_modules
 /app/package-lock.json

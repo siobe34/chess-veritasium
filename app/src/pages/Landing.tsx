@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faFaceSmileBeam } from '@fortawesome/free-solid-svg-icons';
 
 import MainContent from '../components/MainContent';
+//TODO: refactor to use Button component
 
 function Landing() {
 
