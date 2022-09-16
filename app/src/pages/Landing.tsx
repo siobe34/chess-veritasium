@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faFaceSmileBeam } from '@fortawesome/free-solid-svg-icons';
 
 import MainContent from '../components/MainContent';
-//TODO: refactor to use Button component
+import Button from '../components/Button';
 
 function Landing() {
 
@@ -30,12 +30,12 @@ function Landing() {
                     Turns out, the GM's were able to recall almost the entire position with a 5 second glance. So why not try mastering your chess recognition skills today <FontAwesomeIcon icon={faFaceSmileBeam}/>
                 </p>
             </div>
-            <button className='flex bg-blue-500 text-white rounded hover:bg-blue-700 p-4 mt-4'>
+            <Button buttonStyle='primary' customUtils='py-4 mt-4'>
                 <Link to={'/practice'}>
                     Try to Master Chess!
                     <FontAwesomeIcon icon={faArrowRight} className='ml-2' />
                 </Link>
-            </button>
+            </Button>
         </MainContent>
     );
 }

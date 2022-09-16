@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import MainContent from '../components/MainContent';
-//TODO: refactor to clean up component
+import Button from '../components/Button';
+import Table, {TableBody, TableRow, TableCell } from '../components/Table';
 
 function About() {
 
@@ -24,32 +25,35 @@ function About() {
             </div>
             <h1 className='font-bold text-2xl mt-6'>What development tools were used?</h1>
             <div className='flex flex-col items-center justify-center w-7/12'>
-                <table className='border-collapse border-blue-200'>
-                    <tbody>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>React</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>Tailwind</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>Font Awesome</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>Node Express</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>Lichess Database</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>Chess.js</td>
-                        </tr>
-                        <tr className='border border-blue-200 p-8'>
-                            <td className='border border-blue-200 p-4'>react-chessboard (npm)</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <Table>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>React</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Tailwind</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Font Awesome</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Lichess API</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Chess.js</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>react-chessboard (npm)</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
             </div>
+            <Button buttonStyle='primary' customUtils='py-4 mt-4'>
+                <Link to={'/practice'}>
+                    Try to Master Chess!
+                    <FontAwesomeIcon icon={faArrowRight} className='ml-2' />
+                </Link>
+            </Button>
         </MainContent>
     );
 }
