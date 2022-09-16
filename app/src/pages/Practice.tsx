@@ -74,6 +74,8 @@ const DEFAULT_GAME: gameType = {
     gamePosition: '8/8/8/8/8/8/8/8 w KQkq - 0 1'
 };
 
+const DEFAULT_COUNTDOWN: CountdownType['countdown'] = 5;
+
 function Practice() {
     const [apiCallCount, setApiCallCount] = useState<number>(0);
     const [games, setGames] = useState<gameType[]>([]);
@@ -84,7 +86,7 @@ function Practice() {
     const [draggablePieces, setDraggablePieces] = useState<boolean>(false);
     const [piece, setPiece] = useState<PieceContextType['piece']>(null);
     const [pieceColor, setPieceColor] = useState<'w' | 'b'>('w');
-    const [countdown, setCountdown] = useState<CountdownType['countdown']>(5);
+    const [countdown, setCountdown] = useState<CountdownType['countdown']>(DEFAULT_COUNTDOWN);
     const [notification, setNotification] = useState(DEFAULT_NOTIFICATION);
 
     const flipBoard = () => {
@@ -95,12 +97,16 @@ function Practice() {
         setNotation((prevState) => !prevState);
     };
     
+    //* Default countdown may be changed by the user by using an input element
     const changeCountdown = () => {
+        //* Get the dom element of the countdown input
         const inp: HTMLInputElement | null = document.querySelector('#countdown');
-        if (!inp) return setCountdown(() => 5);
+        //* If there's an error and the dom element can't be found then setCountdown to default
+        if (!inp) return setCountdown(() => DEFAULT_COUNTDOWN);
         setCountdown(() => Number(inp.value));
     };
     
+    //* Display the basic starting position of a chess game
     const startingPosition = () => {
         setPosition(() => new Chess());
     };
@@ -109,6 +115,7 @@ function Practice() {
         setPosition(() => new Chess(DEFAULT_GAME.gamePosition));
     };
     
+    //* Show the chess position of the game allowing the user to view all the pieces again
     const restorePosition = () => {
         setPosition(() => new Chess(game.gamePosition));
         changeCountdown();
@@ -122,9 +129,11 @@ function Practice() {
         position.remove(square);
     };
     
+    //* Process logic for every time a square on the Chessboard is clicked
     const handlePieceSelection = (square: Square) => {
         if (piece ===  null) return;
         
+        //* Allow pieces on the board to be draggable if the selection-tool is clicked
         if (piece === 'select-tool') {
             setDraggablePieces(() => !draggablePieces);
             return;
@@ -132,12 +141,15 @@ function Practice() {
 
         setDraggablePieces(() => false);
 
+        //* Remove pieces from the board if the delete tool is selected
         if (piece === 'delete-tool') {
             removePiece(square);
+            //* Refresh the position shown on the Chessboard
             setPosition((prevState) => new Chess(prevState.fen()));
             return;
         };
         
+        //* Dictionary to map the selected piece to the terminology used by Chess.js's 'put' method
         const pieceMapper: {[key: string]: PieceType} = {
             King: 'k',
             Queen: 'q',
@@ -147,24 +159,42 @@ function Practice() {
             Pawn: 'p',
         };
         const shortPiece: PieceType = pieceMapper[piece];
+        //* Pass the logic to place a piece to the 'placePiece' function which uses Chess.js's 'put' method
         placePiece({type: shortPiece, color: pieceColor}, square);
+        //* Refresh the position shown on the Chessboard
         setPosition((prevState) => new Chess(prevState.fen()));
     };
 
+    //* Change the game to the next unsolved game in the games list
     const setNextGame = () => {
+        //* Get index of the current game shown on the Chessboard
         const gameIndex: number = games.indexOf(game);
+        
+        //* If the current game doesn't exist in the games list or the current game is the last game in the games list,
+        //* then setGame to default
         if (gameIndex === -1 || gameIndex === games.length - 1) return setGame(() => DEFAULT_GAME);
+        
+        //* If the current game has been solved then change the game to the next game in the games list
         if (games[gameIndex].status === 'correct') {
             setGame(() => games[games.indexOf(game) + 1]);
         };
     };
 
     const checkAnswer = () => {
+        //* If the games list is empty, then there should be no need to check for an answer
         if (games.length === 0) return;
+
+        //* Get the answer which would be the fen of the current game
+        //* '[0]' is used because you only care about the first part of the fen which has the position of the board
         const answer: string = game.gamePosition.split(' ')[0];
+        //* The solution is obtained using the position shown on the Chessboard's fen
         const solution: string = position.fen().split(' ')[0];
+        
         if (solution === answer) {
-            if (games.indexOf(game) === games.length -1) {
+            //* If the current game is the last game in the games list then set the games list to be empty
+            //* there's a useEffect that will trigger a new api call if the games list is empty
+            //* Otherwise, if the current game isn't the last game then update the current game's status to 'correct'
+            if (games.indexOf(game) === games.length - 1) {
                 setGames(() => []);
             } else {
                 setGames((prevState) => {
@@ -175,44 +205,55 @@ function Practice() {
                 });
             };
 
+            //* Show a notification message saying the solution was correct
             setNotification(() => CORRECT_NOTIFICATION);
 
+            //* Since the current game has been solved, move on to the next game
             setNextGame();
+            
+            //* Reset the countdown
             changeCountdown();
 
+            //* The notification component has a timeout property to remove the notification but the notification
+            //* should also be changed back to default
             setTimeout(() => {
                 setNotification(() => DEFAULT_NOTIFICATION);
-            }, 2500);
+            }, CORRECT_NOTIFICATION.timeout);
 
             return;
         };
         
+        //* If the solution is not correct, then show an 'incorrect' notification message
         setNotification(() => INCORRECT_NOTIFICATION);
-
+        
+        //* The notification component has a timeout property to remove the notification but the notification
+        //* should also be changed back to default
         setTimeout(() => {
             setNotification(() => DEFAULT_NOTIFICATION);
-        }, 2500);
+        }, INCORRECT_NOTIFICATION.timeout);
     };
 
+    //* Monitor every time the countdown changes, if the countdown is 0 then clear all the pieces from the board
     useEffect(() => {
         if (countdown === 0) {
             clearBoard();
         };
     }, [countdown]);
 
+    //* Monitor every time the games list changes to handle various scenarios
     useEffect(() => {
+        //* If the games list is empty then an api call is made
         if (games.length === 0) {
             setApiCallCount((prevState) => prevState + 1);
             getLichessGames();
             return;
         };
-        //! This line doesn't make sense because if the game doesn't exist in the games list then why would you set the game to be the first game in the games list?
-        //! Maybe because if the game is set to DEFAULT_GAME then it wouldn't exist in the games list so once you load the new games list you would set it to the first game?
+
+        //* If the current game doesn't exist in the games list then the games should be set to the first game in the games list
         if (games.indexOf(game) === -1) return setGame(() => games[0]);
 
-        //* If the current game the last game in the games list then setGame to DEFAULT_GAME in order to make a new API call
-        //! Even the above explanation doesn't make sense because there's no UseEffect monitoring to see if game is set to DEFAULT_GAME in order to make the API call
-        if (games.indexOf(game) === games.length) return setGame(() => DEFAULT_GAME);
+        //* The only other scenarios in which the games list changes would be if the current game status has been changed
+        //* to be 'correct' so then the next game in the games list can be set
         setNextGame();
     }, [games]);
 
@@ -240,7 +281,7 @@ function Practice() {
         //* Loop through parsed lines to store all the game fens in array
         responseLines.forEach((line) => {
             //* If the line of the response contains a pgn then convert it to fen and store the position in array
-            //! The current logic assumes all lines beginning with '1' will be a valid pgn but this isn't necessary.
+            //! The current logic assumes all lines beginning with '1' will be a valid pgn but this isn't necessarily true.
             //TODO No error handling: lines could be invalid PGNS
             if (line[0] === '1') {
                 const fenConverter = new Chess();
