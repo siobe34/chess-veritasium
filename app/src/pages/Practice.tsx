@@ -160,8 +160,7 @@ function Practice() {
     };
 
     const checkAnswer = () => {
-        //! I think line below is obsolete now
-        // if (games.length === 0) return;
+        if (games.length === 0) return;
         const answer: string = game.gamePosition.split(' ')[0];
         const solution: string = position.fen().split(' ')[0];
         if (solution === answer) {
@@ -232,7 +231,7 @@ function Practice() {
         //* Retrieve games with following parameters:
         //*     Rated Games
         //*     3 Most Recent Games
-        const response = await fetch(`https://lichess.org/api/games/user/${player.lichessUsername}?max=3&rated=true&pgnInJson=true`);
+        const response = await fetch(`https://lichess.org/api/games/user/${player.lichessUsername}?max=20&rated=true&pgnInJson=true`);
         const responseText = await response.text();
         
         //* Parse the response text line by line to find all the PGNS
