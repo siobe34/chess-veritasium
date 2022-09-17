@@ -12,7 +12,7 @@ function About() {
     return (
         <MainContent>
             <h1 className='font-bold text-3xl mt-6'>About</h1>
-            <h1 className='font-bold text-2xl mt-6'>Why'd you make this site?</h1>
+            <h1 className='font-bold text-2xl text-center mt-6'>Why'd you make this site?</h1>
             <div className='flex flex-col items-center justify-center w-7/12'>
                 <p className='leading-loose'>
                     Mainly for education purposes, I'd never worked with Tailwind before and wanted to try it out.
@@ -23,7 +23,7 @@ function About() {
                     So I made this site to practice that one specific aspect of chess.
                 </p>
             </div>
-            <h1 className='font-bold text-2xl mt-6'>What development tools were used?</h1>
+            <h1 className='font-bold text-2xl text-center mt-6'>What development tools were used?</h1>
             <div className='flex flex-col items-center justify-center w-7/12'>
                 <Table>
                     <TableBody>
@@ -48,7 +48,7 @@ function About() {
                     </TableBody>
                 </Table>
             </div>
-            <Button buttonStyle='primary' customUtils='py-4 mt-4'>
+            <Button buttonStyle='primary' customUtils='py-4 m-4'>
                 <Link to={'/practice'}>
                     Try to Master Chess!
                     <FontAwesomeIcon icon={faArrowRight} className='ml-2' />

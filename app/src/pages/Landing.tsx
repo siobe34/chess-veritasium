@@ -10,7 +10,7 @@ function Landing() {
 
     return (
         <MainContent>
-            <h1 className='font-bold text-2xl mt-6'>What is this site?</h1>
+            <h1 className='font-bold text-2xl text-center mt-6'>What is this site?</h1>
             <div className='flex flex-col items-start justify-center w-7/12'>
                 <p className='leading-relaxed'>
                     <span className='font-semibold text-md underline'>This site is a tool to train your recognition of chess positions.</span><br />
@@ -20,7 +20,7 @@ function Landing() {
                     If not, you can continue taking as many 5 second peeks as required in order to remember the full position.
                 </p>
             </div>
-            <h1 className='font-bold text-2xl mt-6'>Why use this method to train?</h1>
+            <h1 className='font-bold text-2xl text-center mt-6'>Why use this method to train?</h1>
             <div className='flex flex-col items-start justify-center w-7/12'>
                 <p className='leading-relaxed'>
                     This method trains your ability to <span className='font-semibold underline'>recognize</span> chess positions that could possibly occur in human games.
@@ -30,7 +30,7 @@ function Landing() {
                     Turns out, the GM's were able to recall almost the entire position with a 5 second glance. So why not try mastering your chess recognition skills today <FontAwesomeIcon icon={faFaceSmileBeam}/>
                 </p>
             </div>
-            <Button buttonStyle='primary' customUtils='py-4 mt-4'>
+            <Button buttonStyle='primary' customUtils='py-4 m-4'>
                 <Link to={'/practice'}>
                     Try to Master Chess!
                     <FontAwesomeIcon icon={faArrowRight} className='ml-2' />
