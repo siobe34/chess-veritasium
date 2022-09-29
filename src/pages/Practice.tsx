@@ -7,6 +7,7 @@ import { Chessboard } from "react-chessboard";
 import { ICountdown } from "../types/ICountdown";
 import { INotificationMessage } from "../types/INotification";
 import { IPieceContext } from "../types/IPiece";
+import { IGame, IPlayer } from "../types/IPractice";
 
 import Content from "../components/Content";
 import Button from "../components/Button";
@@ -18,18 +19,7 @@ import Timer from "../components/Timer";
 import PieceContext from "../components/PieceContext";
 import CountdownContext from "../components/CountdownContext";
 
-type gameType = {
-    status: string;
-    player: string;
-    gamePosition: string;
-};
-
-type playersType = {
-    name: string;
-    lichessUsername: string;
-};
-
-const PLAYERS: playersType[] = [
+const PLAYERS: IPlayer[] = [
     {
         name: "Eric Rosen",
         lichessUsername: "EricRosen",
@@ -66,7 +56,7 @@ const INCORRECT_NOTIFICATION: INotificationMessage = {
     timeout: 2500,
 };
 
-const DEFAULT_GAME: gameType = {
+const DEFAULT_GAME: IGame = {
     status: "null",
     player: "null",
     gamePosition: "8/8/8/8/8/8/8/8 w KQkq - 0 1",
@@ -76,8 +66,8 @@ const DEFAULT_COUNTDOWN: ICountdown["countdown"] = 5;
 
 function Practice() {
     const [apiCallCount, setApiCallCount] = useState<number>(0);
-    const [games, setGames] = useState<gameType[]>([]);
-    const [game, setGame] = useState<gameType>(() => (games.length === 0 ? DEFAULT_GAME : games[0]));
+    const [games, setGames] = useState<IGame[]>([]);
+    const [game, setGame] = useState<IGame>(() => (games.length === 0 ? DEFAULT_GAME : games[0]));
     const [position, setPosition] = useState(new Chess(game.gamePosition));
     const [orientation, setOrientation] = useState<"w" | "b">("w");
     const [notation, setNotation] = useState<boolean>(true);
