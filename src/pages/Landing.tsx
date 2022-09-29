@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faFaceSmileBeam } from "@fortawesome/free-solid-svg-icons";
 
-import MainContent from "../components/MainContent";
+import Content from "../components/Content";
 import Button from "../components/Button";
 
 function Landing() {
     return (
-        <MainContent>
+        <Content>
             <h1 className='font-bold text-2xl text-center mt-6'>What is this site?</h1>
             <div className='flex flex-col items-start justify-center w-7/12'>
                 <p className='leading-relaxed'>
@@ -43,7 +43,7 @@ function Landing() {
                     <FontAwesomeIcon icon={faArrowRight} className='ml-2' />
                 </Link>
             </Button>
-        </MainContent>
+        </Content>
     );
 }
 

@@ -1,14 +1,14 @@
-import MainContent from "../components/MainContent";
+import Content from "../components/Content";
 // import PageSection from '../components/PageSection';
 
 function PageNotFound() {
     return (
-        <MainContent>
+        <Content>
             {/* <PageSection> */}
             <h1>Page Not Found (404 Error)</h1>
             <p>Sorry it seems this link is broken or simply does not exist.</p>
             {/* </PageSection> */}
-        </MainContent>
+        </Content>
     );
 }
 

@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 
-type ComponentProps = {
-    children?: React.ReactNode;
-};
+import { IContent } from "../types/IContent";
 
-function MainContent({ children }: ComponentProps) {
+function Content({ children }: IContent) {
     return (
         <motion.div
             className='flex flex-col items-center overflow-auto gap-4 w-full'
@@ -17,4 +15,4 @@ function MainContent({ children }: ComponentProps) {
     );
 }
 
-export default MainContent;
+export default Content;

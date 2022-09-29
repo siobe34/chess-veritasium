@@ -4,7 +4,7 @@ import { faLocationCrosshairs, faArrowsRotate, faEraser, faChessBoard, faCheck, 
 import { Chess, Square, Piece, PieceType } from "chess.js";
 import { Chessboard } from "react-chessboard";
 
-import MainContent from "../components/MainContent";
+import Content from "../components/Content";
 import Button from "../components/Button";
 import Loading from "../components/Loading";
 import ButtonIcon from "../components/ButtonIcon";
@@ -302,7 +302,7 @@ function Practice() {
     return (
         <CountdownContext.Provider value={{ countdown: countdown, setCountdown: setCountdown }}>
             <PieceContext.Provider value={{ piece: piece, setPiece: setPiece }}>
-                <MainContent>
+                <Content>
                     {notification.message && (
                         <Notifications>
                             <NotificationItem notificationType={notification.type} timeout={notification.timeout}>
@@ -367,7 +367,7 @@ function Practice() {
                             </>
                         )}
                     </div>
-                </MainContent>
+                </Content>
             </PieceContext.Provider>
         </CountdownContext.Provider>
     );
