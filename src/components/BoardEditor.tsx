@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
-
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowPointer, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
+import { IBoardEditor } from "../types/IBoardEditor";
 
 import PieceContext from "./PieceContext";
 import King from "./ChessPieces/King";
@@ -11,13 +12,7 @@ import Knight from "./ChessPieces/Knight";
 import Rook from "./ChessPieces/Rook";
 import Pawn from "./ChessPieces/Pawn";
 
-type ComponentProps = {
-    color: "w" | "b";
-    pieceColor: "w" | "b";
-    setPieceColor: React.Dispatch<React.SetStateAction<"w" | "b">>;
-};
-
-function BoardEditor({ color, pieceColor, setPieceColor }: ComponentProps) {
+function BoardEditor({ color, pieceColor, setPieceColor }: IBoardEditor) {
     let longColor;
     if (color === "b") {
         longColor = "black";
