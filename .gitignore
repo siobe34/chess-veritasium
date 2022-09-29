@@ -19,5 +19,5 @@ yarn-error.log*
 #####
 
 #app
-/app/node_modules
-/app/package-lock.json
+/node_modules/
+/README.md
