@@ -1,21 +1,7 @@
 import { createContext } from "react";
 
-type PieceType = {
-    King: boolean;
-    Queen: boolean;
-    Bishop: boolean;
-    Knight: boolean;
-    Rook: boolean;
-    Pawn: boolean;
-    "select-tool": boolean;
-    "delete-tool": boolean;
-};
+import { IPieceContext } from "../types/IPiece";
 
-export type PieceContextType = {
-    piece: keyof PieceType | null;
-    setPiece: React.Dispatch<React.SetStateAction<keyof PieceType | null>> | null;
-};
-
-const PieceContext = createContext<PieceContextType>({ piece: null, setPiece: null });
+const PieceContext = createContext<IPieceContext>({ piece: null, setPiece: null });
 
 export default PieceContext;

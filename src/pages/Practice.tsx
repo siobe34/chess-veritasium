@@ -6,6 +6,7 @@ import { Chessboard } from "react-chessboard";
 
 import { ICountdown } from "../types/ICountdown";
 import { INotificationMessage } from "../types/INotification";
+import { IPieceContext } from "../types/IPiece";
 
 import Content from "../components/Content";
 import Button from "../components/Button";
@@ -14,7 +15,7 @@ import ButtonIcon from "../components/ButtonIcon";
 import BoardEditor from "../components/BoardEditor";
 import Notifications, { NotificationItem } from "../components/Notification";
 import Timer from "../components/Timer";
-import PieceContext, { PieceContextType } from "../components/PieceContext";
+import PieceContext from "../components/PieceContext";
 import CountdownContext from "../components/CountdownContext";
 
 type gameType = {
@@ -81,7 +82,7 @@ function Practice() {
     const [orientation, setOrientation] = useState<"w" | "b">("w");
     const [notation, setNotation] = useState<boolean>(true);
     const [draggablePieces, setDraggablePieces] = useState<boolean>(false);
-    const [piece, setPiece] = useState<PieceContextType["piece"]>(null);
+    const [piece, setPiece] = useState<IPieceContext["piece"]>(null);
     const [pieceColor, setPieceColor] = useState<"w" | "b">("w");
     const [countdown, setCountdown] = useState<ICountdown["countdown"]>(DEFAULT_COUNTDOWN);
     const [notification, setNotification] = useState(DEFAULT_NOTIFICATION);
