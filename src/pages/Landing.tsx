@@ -12,7 +12,9 @@ function Landing() {
             <h1 className='font-bold text-2xl text-center mt-6'>What is this site?</h1>
             <div className='flex flex-col items-start justify-center w-7/12'>
                 <p className='leading-relaxed'>
-                    <span className='font-semibold text-md underline'>This site is a tool to train your recognition of chess positions.</span>
+                    <span className='font-semibold text-lg underline leading-loose'>
+                        This site is a tool to train your recognition of chess positions.
+                    </span>
                     <br />
                     The "Practice" page of the site displays a chess position that may arise in a human game with the position remaining on screen for
                     5 seconds. After the position is cleared from the screen, you have to try to correctly place as many pieces on the board that you
