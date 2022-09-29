@@ -1,10 +1,7 @@
-import React, { createContext } from "react";
+import { createContext } from "react";
 
-export type CountdownType = {
-    countdown: number | null;
-    setCountdown: React.Dispatch<React.SetStateAction<number | null>> | null;
-};
+import { ICountdown } from "../types/ICountdown";
 
-const CountdownContext = createContext<CountdownType>({ countdown: null, setCountdown: null });
+const CountdownContext = createContext<ICountdown>({ countdown: null, setCountdown: null });
 
 export default CountdownContext;
