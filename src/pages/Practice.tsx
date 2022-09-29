@@ -5,13 +5,14 @@ import { Chess, Square, Piece, PieceType } from "chess.js";
 import { Chessboard } from "react-chessboard";
 
 import { ICountdown } from "../types/ICountdown";
+import { INotificationMessage } from "../types/INotification";
 
 import Content from "../components/Content";
 import Button from "../components/Button";
 import Loading from "../components/Loading";
 import ButtonIcon from "../components/ButtonIcon";
 import BoardEditor from "../components/BoardEditor";
-import Notifications, { NotificationItem, NotificationProps } from "../components/Notification";
+import Notifications, { NotificationItem } from "../components/Notification";
 import Timer from "../components/Timer";
 import PieceContext, { PieceContextType } from "../components/PieceContext";
 import CountdownContext from "../components/CountdownContext";
@@ -25,12 +26,6 @@ type gameType = {
 type playersType = {
     name: string;
     lichessUsername: string;
-};
-
-type notificationType = {
-    message: string | null;
-    type: NotificationProps["notificationType"];
-    timeout: number;
 };
 
 const PLAYERS: playersType[] = [
@@ -52,19 +47,19 @@ const PLAYERS: playersType[] = [
     },
 ];
 
-const DEFAULT_NOTIFICATION: notificationType = {
+const DEFAULT_NOTIFICATION: INotificationMessage = {
     message: null,
     type: "info",
     timeout: 0,
 };
 
-const CORRECT_NOTIFICATION: notificationType = {
+const CORRECT_NOTIFICATION: INotificationMessage = {
     message: "Nice, you got it right!",
     type: "success",
     timeout: 2500,
 };
 
-const INCORRECT_NOTIFICATION: notificationType = {
+const INCORRECT_NOTIFICATION: INotificationMessage = {
     message: "Not quite right, try again!!",
     type: "error",
     timeout: 2500,

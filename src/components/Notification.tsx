@@ -3,15 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faCircleInfo, faCircleCheck, faCircleExclamation, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { motion, AnimatePresence } from "framer-motion";
 
-type ComponentProps = {
-    children?: React.ReactNode;
-};
-
-export type NotificationProps = {
-    notificationType?: "info" | "success" | "error" | "warning";
-    children?: React.ReactNode;
-    timeout?: number;
-};
+import { INotifications, INotificationItem } from "../types/INotification";
 
 const variantsItem = {
     hidden: {
@@ -30,7 +22,7 @@ const variantsItem = {
     },
 };
 
-export const NotificationItem = ({ notificationType, children, timeout }: NotificationProps) => {
+export const NotificationItem = ({ notificationType, children, timeout }: INotificationItem) => {
     let icon = faCircleInfo;
     let notificationClass;
     if (notificationType === "success") {
@@ -89,11 +81,10 @@ const variantsContainer = {
     },
 };
 
-function Notifications({ children }: ComponentProps) {
+function Notifications({ children }: INotifications) {
     return (
         <motion.div
             className='z-50 fixed flex flex-col items-center justify-center gap-1 p-4'
-            // ?? width is not set but used to be set, not sure if this will result in bugs
             variants={variantsContainer}
             initial='hidden'
             animate='visible'
