@@ -14,10 +14,10 @@ function Landing() {
                 <p className='leading-relaxed'>
                     <span className='font-semibold text-md underline'>This site is a tool to train your recognition of chess positions.</span>
                     <br />
-                    The practice page of the site displays a chess position that may arise in a human game and remains on screen for 5 seconds. After
-                    the position is cleared from the screen, you have to try to correctly place as many pieces on the board that you can remember from
-                    the given position. If you get it right, move onto the next position. If not, you can continue taking as many 5 second peeks as
-                    required in order to remember the full position.
+                    The "Practice" page of the site displays a chess position that may arise in a human game with the position remaining on screen for
+                    5 seconds. After the position is cleared from the screen, you have to try to correctly place as many pieces on the board that you
+                    can remember from the given position. If you get it right, move onto the next position. If not, you can continue taking as many 5
+                    second peeks as required in order to remember the full position.
                 </p>
             </div>
             <h1 className='font-bold text-2xl text-center mt-6'>Why use this method to train?</h1>
