@@ -1,8 +1,6 @@
-type Props = {
-    color: string;
-};
+import { IPiece } from "../../types/IPiece";
 
-function Queen({ color }: Props) {
+function Queen({ color }: IPiece) {
     return (
         <div className='flex justify-center' style={{ width: "70px", height: "70px" }}>
             <div

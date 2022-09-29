@@ -1,8 +1,6 @@
-type Props = {
-    color: string;
-};
+import { IPiece } from "../../types/IPiece";
 
-function Pawn({ color }: Props) {
+function Pawn({ color }: IPiece) {
     return (
         <div className='flex items-center justify-center' style={{ width: "70px", height: "70px" }}>
             <div
