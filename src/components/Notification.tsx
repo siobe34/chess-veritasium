@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faCircleInfo, faCircleCheck, faCircleExclamation, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose, faCircleInfo, faCircleCheck, faCircleExclamation, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 
 type ComponentProps = {
     children?: React.ReactNode;
 };
 
 export type NotificationProps = {
-    notificationType?: 'info' | 'success' | 'error' | 'warning';
+    notificationType?: "info" | "success" | "error" | "warning";
     children?: React.ReactNode;
     timeout?: number;
 };
 
 const variantsItem = {
     hidden: {
-        y: '-100vh',
+        y: "-100vh",
         opacity: 0,
     },
     visible: {
@@ -24,7 +24,7 @@ const variantsItem = {
         transition: { duration: 0.75 },
     },
     exit: {
-        y: '-100vh',
+        y: "-100vh",
         opacity: 0,
         transition: { duration: 0.75 },
     },
@@ -32,30 +32,30 @@ const variantsItem = {
 
 export const NotificationItem = ({ notificationType, children, timeout }: NotificationProps) => {
     let icon = faCircleInfo;
-    let notificationClass ;
-    if (notificationType === 'success') {
+    let notificationClass;
+    if (notificationType === "success") {
         icon = faCircleCheck;
-        notificationClass = 'bg-green-500'
-    };
-    if (notificationType === 'error') {
+        notificationClass = "bg-green-500";
+    }
+    if (notificationType === "error") {
         icon = faCircleExclamation;
-        notificationClass = 'bg-red-500'
-    };
-    if (notificationType === 'warning') {
+        notificationClass = "bg-red-500";
+    }
+    if (notificationType === "warning") {
         icon = faTriangleExclamation;
-        notificationClass = 'bg-yellow-500'
-    };
+        notificationClass = "bg-yellow-500";
+    }
     if (!timeout) timeout = 5000;
     const [itemState, setItemState] = useState<boolean>(true);
-    
+
     useEffect(() => {
         if (!itemState) return;
-        
+
         setTimeout(() => {
             setItemState(false);
         }, timeout);
     }, [itemState, timeout]);
-    
+
     return (
         <AnimatePresence exitBeforeEnter>
             {itemState && (

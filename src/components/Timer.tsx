@@ -1,8 +1,8 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext } from "react";
 
-import CountdownContext from './CountdownContext';
+import CountdownContext from "./CountdownContext";
 
-function Timer () {
+function Timer() {
     const { countdown, setCountdown } = useContext(CountdownContext);
     if (!setCountdown) return null;
 
@@ -11,8 +11,8 @@ function Timer () {
             if (countdown === 0) {
                 clearInterval(interval);
                 return;
-            };
-            
+            }
+
             setCountdown((prevState) => {
                 if (prevState === null) return 5;
                 if (prevState < 0) return 5;
@@ -23,12 +23,7 @@ function Timer () {
         return () => clearInterval(interval);
     }, [countdown]);
 
-
-    return (
-        <span className='text-6xl font-bold text-red-700'>
-            { countdown }
-        </span>
-    );
-};
+    return <span className='text-6xl font-bold text-red-700'>{countdown}</span>;
+}
 
 export default Timer;

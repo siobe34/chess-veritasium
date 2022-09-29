@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 type ComponentProps = {
     children?: React.ReactNode;
@@ -10,9 +10,9 @@ function ButtonIcon({ children, icon }: ComponentProps) {
     return (
         <div className='flex items-center justify-between'>
             <FontAwesomeIcon className='pr-2' icon={icon} />
-            { children }
+            {children}
         </div>
-    )
-};
+    );
+}
 
 export default ButtonIcon;
