@@ -40,12 +40,12 @@ function BoardEditor({ color, pieceColor, setPieceColor }: ComponentProps) {
 
   return (
     <div
-      className="flex bg-gray-500"
+      className="flex bg-gray-500 dark:bg-gray-700"
       style={{ height: "70px", width: "560px" }}
     >
       <div
         className={`${
-          color === "w" ? "text-white" : null
+          color === "w" ? "text-white" : "dark:text-black"
         } flex items-center justify-center ${
           piece === "select-tool" && pieceColor === color ? "bg-blue-500" : null
         }`}
@@ -117,7 +117,7 @@ function BoardEditor({ color, pieceColor, setPieceColor }: ComponentProps) {
       </div>
       <div
         className={`${
-          color === "w" ? "text-white" : null
+          color === "w" ? "text-white" : "dark:text-black"
         } flex items-center justify-center ${
           piece === "delete-tool" && pieceColor === color ? "bg-blue-500" : null
         }`}

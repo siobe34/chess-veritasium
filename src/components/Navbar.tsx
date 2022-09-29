@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faChessQueen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faChessQueen,
+  faSun,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Button from "./Button";
 
@@ -13,6 +18,20 @@ function Navbar() {
   useEffect(() => {
     setMobileMenu(false);
   }, [location]);
+
+  const [theme, setTheme] = useState<"" | "dark">("");
+  const docRoot = document.getElementById("root");
+  const changeTheme = () => {
+    docRoot?.classList.toggle("dark");
+    if (docRoot && theme === "") {
+      docRoot.style.color = "#fff";
+      docRoot.style.backgroundColor = "#10122B";
+    } else {
+      docRoot!.style.color = "#000";
+      docRoot!.style.backgroundColor = "#fff";
+    }
+    setTheme((prevState) => (prevState === "dark" ? "" : "dark"));
+  };
 
   return (
     <>
@@ -43,6 +62,12 @@ function Navbar() {
                 sm:pb-0`}
           style={{ top: "100%" }}
         >
+          <Button
+            customUtils="text-blue-200 hover:text-white mr-4"
+            onClick={() => changeTheme()}
+          >
+            <FontAwesomeIcon icon={theme === "dark" ? faSun : faMoon} />
+          </Button>
           <Link className="text-blue-200 hover:text-white mr-4" to="/practice">
             Practice
           </Link>
