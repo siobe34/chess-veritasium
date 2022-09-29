@@ -4,6 +4,8 @@ import { faLocationCrosshairs, faArrowsRotate, faEraser, faChessBoard, faCheck, 
 import { Chess, Square, Piece, PieceType } from "chess.js";
 import { Chessboard } from "react-chessboard";
 
+import { ICountdown } from "../types/ICountdown";
+
 import Content from "../components/Content";
 import Button from "../components/Button";
 import Loading from "../components/Loading";
@@ -12,7 +14,7 @@ import BoardEditor from "../components/BoardEditor";
 import Notifications, { NotificationItem, NotificationProps } from "../components/Notification";
 import Timer from "../components/Timer";
 import PieceContext, { PieceContextType } from "../components/PieceContext";
-import CountdownContext, { CountdownType } from "../components/CountdownContext";
+import CountdownContext from "../components/CountdownContext";
 
 type gameType = {
     status: string;
@@ -74,7 +76,7 @@ const DEFAULT_GAME: gameType = {
     gamePosition: "8/8/8/8/8/8/8/8 w KQkq - 0 1",
 };
 
-const DEFAULT_COUNTDOWN: CountdownType["countdown"] = 5;
+const DEFAULT_COUNTDOWN: ICountdown["countdown"] = 5;
 
 function Practice() {
     const [apiCallCount, setApiCallCount] = useState<number>(0);
@@ -86,7 +88,7 @@ function Practice() {
     const [draggablePieces, setDraggablePieces] = useState<boolean>(false);
     const [piece, setPiece] = useState<PieceContextType["piece"]>(null);
     const [pieceColor, setPieceColor] = useState<"w" | "b">("w");
-    const [countdown, setCountdown] = useState<CountdownType["countdown"]>(DEFAULT_COUNTDOWN);
+    const [countdown, setCountdown] = useState<ICountdown["countdown"]>(DEFAULT_COUNTDOWN);
     const [notification, setNotification] = useState(DEFAULT_NOTIFICATION);
 
     const flipBoard = () => {
